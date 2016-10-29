@@ -1,0 +1,54 @@
+{
+  "name": "Butter",
+  "description" : "Butts layers together",
+  "author" : "Peter Berrecloth",
+  "homepage": "https://github.com/pberrecloth/butter",
+  "version": "0.1",
+  "identifier" : "com.butter.sketchplugin",
+  "compatibleVersion": "39.1",
+  "bundleVersion": 1,
+  "commands" : [
+    {
+      "name" : "Butt Selection Up",
+      "identifier" : "buttSelectionUp",
+      "script" : "butter.js",
+      "handler" : "buttSelectionUp",
+      "shortcut" : ""
+    },
+    {
+      "name" : "Butt Selection Down",
+      "identifier" : "buttSelectionDown",
+      "script" : "butter.js",
+      "handler" : "buttSelectionDown",
+      "shortcut" : ""
+    },
+    {
+      "name" : "Butt Selection Left",
+      "identifier" : "buttSelectionLeft",
+      "script" : "butter.js",
+      "handler" : "buttSelectionLeft",
+      "shortcut" : ""
+    },
+    {
+      "name" : "Butt Selection Right",
+      "identifier" : "buttSelectionRight",
+      "script" : "butter.js",
+      "handler" : "buttSelectionRight",
+      "shortcut" : ""
+    }
+  ],
+  "menu" : {
+    "isRoot" : true,
+    "items" : [
+      {
+        "title" : "Butter",
+        "items" : [
+          "buttSelectionUp",
+          "buttSelectionDown",
+          "buttSelectionLeft",
+          "buttSelectionRight",
+        ]
+      }
+    ]
+  }
+}
