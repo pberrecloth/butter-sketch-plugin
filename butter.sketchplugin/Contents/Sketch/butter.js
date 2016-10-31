@@ -42,6 +42,11 @@ function buttSelection(direction, axis, order) {
         // Vertical butting
         for (var i=0; i<selectionCount; i++) {
           var layer = sortedLayers[i]
+          var layerFrame = layer.frame()
+          var layerHeight = layerFrame.height()
+          if (direction == "down" && lastLayer){
+            var newCoordinate = lastLayerY - layerHeight
+          }
           layer.frame().setY(newCoordinate)
 
           var lastLayer = layer
@@ -52,13 +57,19 @@ function buttSelection(direction, axis, order) {
           if (direction == "up"){
             var newCoordinate = lastLayerY + lastLayerHeight
           } else {
-            var newCoordinate = lastLayerY - lastLayerHeight
+            var newCoordinate = lastLayerY - layerHeight //?
           }
         }
       } else {
         // Horizontal butting
         for (var i=0; i<selectionCount; i++) {
           var layer = sortedLayers[i]
+          var layerFrame = layer.frame()
+          var layerWidth = layerFrame.width()
+          if (direction == "right" && lastLayer){
+            var newCoordinate = lastLayerX - layerWidth
+          }
+
           layer.frame().setX(newCoordinate)
 
           var lastLayer = layer
@@ -68,11 +79,10 @@ function buttSelection(direction, axis, order) {
 
           if (direction == "left"){
             var newCoordinate = lastLayerX + lastLayerWidth
-          } else {
-            var newCoordinate = lastLayerX - lastLayerWidth
           }
         }
       }
+      newCoordinate = null;
       doc.showMessage("Processed " + selectionCount + " layer(s)")
   }
 }
