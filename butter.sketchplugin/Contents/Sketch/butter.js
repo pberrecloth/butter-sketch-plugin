@@ -11,7 +11,9 @@ function initContext(context) {
 
     }
 
-// Menu calls
+// ------------------------- MENU CALLS ----------------------- //
+
+// Butt - No margin
 function buttSelectionUp(context) {
   initContext(context)
   buttSelection("up", "Y", 1)
@@ -28,12 +30,39 @@ function buttSelectionRight(context) {
   initContext(context)
   buttSelection("right", "X", 0)
 }
+// Butt - With Margin
+function buttSelectionUpAddingMargin(context) {
+  initContext(context)
+  var margin = [[doc askForUserInput:"Spacing" ofType:1 initialValue:"8"] integerValue];
+  buttSelection("up", "Y", 1, margin)
+}
+function buttSelectionDownAddingMargin(context) {
+  initContext(context)
+  var margin = [[doc askForUserInput:"Spacing" ofType:1 initialValue:"8"] integerValue];
+  buttSelection("down", "Y", 0, margin)
+}
+function buttSelectionLeftAddingMargin(context) {
+  initContext(context)
+  var margin = [[doc askForUserInput:"Spacing" ofType:1 initialValue:"8"] integerValue];
+  buttSelection("left", "X", 1, margin)
+}
+function buttSelectionRightAddingMargin(context) {
+  initContext(context)
+  var margin = [[doc askForUserInput:"Spacing" ofType:1 initialValue:"8"] integerValue];
+  buttSelection("right", "X", 0, margin)
+}
 
-//  Process
-function buttSelection(direction, axis, order) {
+
+
+
+// ------------------------- MAIN PROCESSOR ----------------------- //
+function buttSelection(direction, axis, order, margin) {
   if (selectionCount <= 1) {
     doc.showMessage("Select at least two layers to butt together")
-    } else {
+    }
+    else
+    {
+
       var sortDirectionally = [NSSortDescriptor sortDescriptorWithKey:"absoluteRect.ruler"+axis ascending:order]
       var sortedLayers = [selection sortedArrayUsingDescriptors:[sortDirectionally]]
       sortSelectedLayersInList(sortedLayers)
@@ -45,7 +74,7 @@ function buttSelection(direction, axis, order) {
           var layerFrame = layer.frame()
           var layerHeight = layerFrame.height()
           if (direction == "down" && lastLayer){
-            var newCoordinate = lastLayerY - layerHeight
+            var newCoordinate = lastLayerY - layerHeight - margin
           }
           layer.frame().setY(newCoordinate)
 
@@ -55,9 +84,9 @@ function buttSelection(direction, axis, order) {
           var lastLayerY = lastLayerFrame.y()
 
           if (direction == "up"){
-            var newCoordinate = lastLayerY + lastLayerHeight
+            var newCoordinate = lastLayerY + lastLayerHeight + margin
           } else {
-            var newCoordinate = lastLayerY - layerHeight //?
+            var newCoordinate = lastLayerY - layerHeight - margin
           }
         }
       } else {
@@ -67,7 +96,7 @@ function buttSelection(direction, axis, order) {
           var layerFrame = layer.frame()
           var layerWidth = layerFrame.width()
           if (direction == "right" && lastLayer){
-            var newCoordinate = lastLayerX - layerWidth
+            var newCoordinate = lastLayerX - layerWidth - margin
           }
 
           layer.frame().setX(newCoordinate)
@@ -78,7 +107,7 @@ function buttSelection(direction, axis, order) {
           var lastLayerX = lastLayerFrame.x()
 
           if (direction == "left"){
-            var newCoordinate = lastLayerX + lastLayerWidth
+            var newCoordinate = lastLayerX + lastLayerWidth + margin
           }
         }
       }

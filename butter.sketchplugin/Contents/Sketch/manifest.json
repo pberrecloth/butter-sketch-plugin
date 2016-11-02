@@ -35,6 +35,41 @@
       "script" : "butter.js",
       "handler" : "buttSelectionRight",
       "shortcut" : ""
+    },
+    {
+      "name" :        "Space Selection Up",
+      "identifier" :  "buttSelectionUpAddingMargin",
+      "script" :      "butter.js",
+      "handler" :     "buttSelectionUpAddingMargin",
+      "shortcut" :     ""
+    },
+    {
+      "name" :        "Space Selection Down",
+      "identifier" :  "buttSelectionDownAddingMargin",
+      "script" :      "butter.js",
+      "handler" :     "buttSelectionDownAddingMargin",
+      "shortcut" :    ""
+    },
+    {
+      "name" :        "Space Selection Left",
+      "identifier" :  "buttSelectionLeftAddingMargin",
+      "script" :      "butter.js",
+      "handler" :     "buttSelectionLeftAddingMargin",
+      "shortcut" :    ""
+    },
+    {
+      "name" :        "Space Selection Right",
+      "identifier" :  "buttSelectionRightAddingMargin",
+      "script" :      "butter.js",
+      "handler" :     "buttSelectionRightAddingMargin",
+      "shortcut" :    ""
+    },
+    {
+      "name" :        "Settings",
+      "identifier" :  "changeSettings",
+      "script" :      "butter.js",
+      "handler" :     "changeSettings",
+      "shortcut" :    ""
     }
   ],
   "menu" : {
@@ -47,6 +82,11 @@
           "buttSelectionDown",
           "buttSelectionLeft",
           "buttSelectionRight",
+          "-",
+          "buttSelectionUpAddingMargin",
+          "buttSelectionDownAddingMargin",
+          "buttSelectionLeftAddingMargin",
+          "buttSelectionRightAddingMargin"
         ]
       }
     ]
