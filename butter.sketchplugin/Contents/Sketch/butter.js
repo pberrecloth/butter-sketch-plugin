@@ -62,7 +62,7 @@ function buttSelection(direction, axis, order, margin) {
     }
     else
     {
-
+      if (!margin){ var margin = 0;}
       var sortDirectionally = [NSSortDescriptor sortDescriptorWithKey:"absoluteRect.ruler"+axis ascending:order]
       var sortedLayers = [selection sortedArrayUsingDescriptors:[sortDirectionally]]
       sortSelectedLayersInList(sortedLayers)
