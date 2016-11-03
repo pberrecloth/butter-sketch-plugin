@@ -6,7 +6,14 @@ The plugin fills the gap between the "Align" tool and the "Distribute" tool. Ins
 
 **New V2** Spacing options have been added!
 
-![Example](example.gif?raw=true "Example")
+![Example](example1.png?raw=true "Example")
+*Menu commands*
+
+![Example](example2.gif?raw=true "Example")
+*Butt selection command*
+
+![Example](example3.gif?raw=true "Example")
+*Space selection command*
 
 ## Configure Shortcuts
 
