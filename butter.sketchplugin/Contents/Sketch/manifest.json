@@ -2,7 +2,7 @@
   "name": "Butter",
   "description" : "Butts layers together",
   "author" : "Peter Berrecloth",
-  "homepage": "https://github.com/pberrecloth/butter",
+  "homepage": "https://github.com/pberrecloth/butter-sketch-plugin",
   "version": "0.1",
   "identifier" : "com.butter.sketchplugin",
   "compatibleVersion": "39.1",
