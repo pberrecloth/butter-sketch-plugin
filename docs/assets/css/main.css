@@ -1,0 +1,49 @@
+@import 'normalize.css';
+
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+header {
+	background-image: linear-gradient(-180deg, #FFBF00 0%, #F6B800 100%);
+	padding:72px;
+	color: #fff;
+	text-align: center;
+}
+header h1 {
+	font-weight: 900;
+	text-transform: uppercase;
+	letter-spacing: 0em;
+	font-size: 4em;
+}
+header h2 {
+	font-weight: 300;
+}
+
+header .button {
+	display: inline-block;
+	margin: 18px;
+	padding: 12px;
+	font-family: OpenSans-Bold;
+	font-size: 24px;
+	color: rgba(0,0,0,0.74);
+	letter-spacing: 0;
+	text-decoration: none;
+	border-radius: 3px;
+	border: 1px solid #FFEB56;
+}
+header small {
+	display: block;
+}
+
+.contributeSection {
+	text-align: center;
+}
+
+footer {
+}
+footer small {
+	display: block;
+	text-align: center;
+	padding: 12px;
+}

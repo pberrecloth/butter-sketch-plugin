@@ -2,7 +2,7 @@
   "name": "Butter",
   "description" : "Butts layers together",
   "author" : "Peter Berrecloth",
-  "homepage": "https://github.com/pberrecloth/butter",
+  "homepage": "https://github.com/pberrecloth/butter-sketch-plugin",
   "version": "0.1",
   "identifier" : "com.butter.sketchplugin",
   "compatibleVersion": "39.1",
@@ -11,6 +11,8 @@
     {
       "name" : "Butt Selection Up",
       "identifier" : "buttSelectionUp",
+      "description" : "Butt selection up",
+      "icon" : "icons/butter-64x64.png",
       "script" : "butter.js",
       "handler" : "buttSelectionUp",
       "shortcut" : ""
@@ -18,6 +20,8 @@
     {
       "name" : "Butt Selection Down",
       "identifier" : "buttSelectionDown",
+      "description" : "Butt selection down",
+      "icon" : "icons/butter-64x64.png",
       "script" : "butter.js",
       "handler" : "buttSelectionDown",
       "shortcut" : ""
@@ -25,6 +29,8 @@
     {
       "name" : "Butt Selection Left",
       "identifier" : "buttSelectionLeft",
+      "description" : "Butt selection left",
+      "icon" : "icons/butter-64x64.png",
       "script" : "butter.js",
       "handler" : "buttSelectionLeft",
       "shortcut" : ""
@@ -32,6 +38,8 @@
     {
       "name" : "Butt Selection Right",
       "identifier" : "buttSelectionRight",
+      "description" : "Butt selection right",
+      "icon" : "icons/butter-64x64.png",
       "script" : "butter.js",
       "handler" : "buttSelectionRight",
       "shortcut" : ""
@@ -39,6 +47,8 @@
     {
       "name" :        "Space Selection Up",
       "identifier" :  "buttSelectionUpAddingMargin",
+      "description" : "Space selection up",
+      "icon" : "icons/butter-64x64.png",
       "script" :      "butter.js",
       "handler" :     "buttSelectionUpAddingMargin",
       "shortcut" :     ""
@@ -46,6 +56,8 @@
     {
       "name" :        "Space Selection Down",
       "identifier" :  "buttSelectionDownAddingMargin",
+      "description" : "Space selection down",
+      "icon" : "icons/butter-64x64.png",
       "script" :      "butter.js",
       "handler" :     "buttSelectionDownAddingMargin",
       "shortcut" :    ""
@@ -53,6 +65,8 @@
     {
       "name" :        "Space Selection Left",
       "identifier" :  "buttSelectionLeftAddingMargin",
+      "description" : "Space selection left",
+      "icon" : "icons/butter-64x64.png",
       "script" :      "butter.js",
       "handler" :     "buttSelectionLeftAddingMargin",
       "shortcut" :    ""
@@ -60,6 +74,8 @@
     {
       "name" :        "Space Selection Right",
       "identifier" :  "buttSelectionRightAddingMargin",
+      "description" : "Space selection right",
+      "icon" : "icons/butter-64x64.png",
       "script" :      "butter.js",
       "handler" :     "buttSelectionRightAddingMargin",
       "shortcut" :    ""
@@ -67,6 +83,8 @@
     {
       "name" :        "Settings",
       "identifier" :  "changeSettings",
+      "description" : "Butter settings",
+      "icon" : "icons/butter-64x64.png",
       "script" :      "butter.js",
       "handler" :     "changeSettings",
       "shortcut" :    ""
