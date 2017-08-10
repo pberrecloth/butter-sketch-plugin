@@ -35,6 +35,11 @@ header .button {
 header small {
 	display: block;
 }
+
+.contributeSection {
+	text-align: center;
+}
+
 footer {
 }
 footer small {
