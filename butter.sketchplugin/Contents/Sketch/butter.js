@@ -1,168 +1,209 @@
-function initContext(context) {
-  sketch = context.api(),
-    doc = context.document,
-        plugin = context.plugin,
-        command = context.command,
-        page = doc.currentPage(),
-        pages = doc.pages(),
-        artboard = page.currentArtboard(),
-        selection = context.selection,
-        selectionCount = selection.count()
 
-    }
+var doc, selection, count
 
-// ------------------------- MENU CALLS ----------------------- //
+// Automatically called first when the plugin is actioned
+function onSetUp(context) {
+  doc = context.document
+  selection = context.selection
+  count = selection.count()
+}
 
-// Butt - No margin
-function buttSelectionUp(context) {
-  initContext(context)
-  buttSelection("up", "Y", 1)
+// Possible directions for 'butting'
+var directions = {
+  LEFT: 0,
+  RIGHT: 1,
+  UP: 2,
+  DOWN: 3
 }
-function buttSelectionDown(context) {
-  initContext(context)
-  buttSelection("down", "Y", 0)
+
+
+//--------------------------
+// Plugin handlers
+//--------------------------
+
+function buttSelectionUp() {
+  buttSelection(directions.UP)
 }
-function buttSelectionLeft(context) {
-  initContext(context)
-  buttSelection("left", "X", 1)
+
+function buttSelectionDown() {
+  buttSelection(directions.DOWN)
 }
-function buttSelectionRight(context) {
-  initContext(context)
-  buttSelection("right", "X", 0)
+
+function buttSelectionLeft() {
+  buttSelection(directions.LEFT)
 }
+
+function buttSelectionRight() {
+  buttSelection(directions.RIGHT)
+}
+
 // Butt - With Margin
-function buttSelectionUpAddingMargin(context) {
-  initContext(context)
-  var margin = [[doc askForUserInput:"Spacing" ofType:1 initialValue:"8"] integerValue];
-  buttSelection("up", "Y", 1, margin)
+function buttSelectionUpAddingMargin() {
+  buttSelection(directions.UP, true)
 }
-function buttSelectionDownAddingMargin(context) {
-  initContext(context)
-  var margin = [[doc askForUserInput:"Spacing" ofType:1 initialValue:"8"] integerValue];
-  buttSelection("down", "Y", 0, margin)
+
+function buttSelectionDownAddingMargin() {
+  buttSelection(directions.DOWN, true)
 }
-function buttSelectionLeftAddingMargin(context) {
-  initContext(context)
-  var margin = [[doc askForUserInput:"Spacing" ofType:1 initialValue:"8"] integerValue];
-  buttSelection("left", "X", 1, margin)
+
+function buttSelectionLeftAddingMargin() {
+  buttSelection(directions.LEFT, true)
 }
-function buttSelectionRightAddingMargin(context) {
-  initContext(context)
-  var margin = [[doc askForUserInput:"Spacing" ofType:1 initialValue:"8"] integerValue];
-  buttSelection("right", "X", 0, margin)
+
+function buttSelectionRightAddingMargin() {
+  buttSelection(directions.RIGHT, true)
 }
 
 
+//--------------------------
+// Implementation
+//--------------------------
 
-
-// ------------------------- MAIN PROCESSOR ----------------------- //
-function buttSelection(direction, axis, order, margin) {
-  if (selectionCount <= 1) {
+// Butt all selected elements in a specified direction
+// direction: The direction to butt from
+// askUser: (Boolean) Whether to prompt the user to enter a margin
+function buttSelection(direction, askUser) {
+  // Will only work if the user has selected more than one layer
+  if (count <= 1) {
     doc.showMessage("Select at least two layers to butt together")
-    }
-    else
-    {
-      if (!margin){ var margin = 0;}
-      var sortDirectionally = [NSSortDescriptor sortDescriptorWithKey:"absoluteRect.ruler"+axis ascending:order]
-      var sortedLayers = [selection sortedArrayUsingDescriptors:[sortDirectionally]]
-      sortSelectedLayersInList(sortedLayers)
-
-      if (axis == "Y"){
-        // Vertical butting
-        for (var i=0; i<selectionCount; i++) {
-          var layer = sortedLayers[i]
-          var layerFrame = layer.frame()
-          var layerHeight = layerFrame.height()
-          if (direction == "down" && lastLayer){
-            var newCoordinate = lastLayerY - layerHeight - margin
-          }
-          layer.frame().setY(newCoordinate)
-
-          var lastLayer = layer
-          var lastLayerFrame = lastLayer.frame()
-          var lastLayerHeight = lastLayerFrame.height()
-          var lastLayerY = lastLayerFrame.y()
-
-          if (direction == "up"){
-            var newCoordinate = lastLayerY + lastLayerHeight + margin
-          } else {
-            var newCoordinate = lastLayerY - layerHeight - margin
-          }
-        }
-      } else {
-        // Horizontal butting
-        for (var i=0; i<selectionCount; i++) {
-          var layer = sortedLayers[i]
-          var layerFrame = layer.frame()
-          var layerWidth = layerFrame.width()
-          if (direction == "right" && lastLayer){
-            var newCoordinate = lastLayerX - layerWidth - margin
-          }
-
-          layer.frame().setX(newCoordinate)
-
-          var lastLayer = layer
-          var lastLayerFrame = lastLayer.frame()
-          var lastLayerWidth = lastLayerFrame.width()
-          var lastLayerX = lastLayerFrame.x()
-
-          if (direction == "left"){
-            var newCoordinate = lastLayerX + lastLayerWidth + margin
-          }
-        }
-      }
-      newCoordinate = null;
-      doc.showMessage("Processed " + selectionCount + " layer(s)")
+    return
   }
+
+  // Will only work if all the layers have the same parent
+  if (!layersHaveSameParent(selection)) {
+    doc.showMessage("Please select multiple layers in one group")
+    return
+  }
+
+  // Get the margin for butting — asking the user if necessary
+  var margin = getMargin(askUser)
+  // If the user cancelled their margin input, finish running the script
+  if (!margin)
+    return
+
+
+  // Convert the selection array from an NSArray into a Javascript array
+  // This makes it easier to sort and use 'shift' etc.
+  var selectedLayers = []
+  selection.forEach(function(layer) {
+    selectedLayers.push(layer)
+  })
+
+  // Sort the layers based on the direction
+  var layers = sortLayersForDirection(selectedLayers, direction)
+
+  // Apart from the first layer, shift each layer based on previous layer's position
+  var previous = layers.shift()
+  layers.forEach(function(layer) {
+    // Shift the position based on the direction we are 'butting'
+    switch(direction) {
+      case directions.LEFT:
+        layer.frame().setX(previous.frame().maxX() + margin)
+        break;
+      case directions.RIGHT:
+        layer.frame().setX(previous.frame().minX() - margin - layer.frame().width())
+        break;
+      case directions.UP:
+        layer.frame().setY(previous.frame().maxY() + margin)
+        break;
+      case directions.DOWN:
+        layer.frame().setY(previous.frame().minY() - margin - layer.frame().height())
+        break;
+    }
+
+    // Reorder the layer in the layer list by removing it, then placing after the previous layer
+    layer.removeFromParent()
+    previous.parentGroup().insertLayer_afterLayerOrAtEnd(layer, previous)
+
+    previous = layer
+  })
+
+  doc.showMessage("Processed " + count + " layers")
 }
 
-// ------------------------- UTILS ----------------------- //
 
-// sorts selected layers in layer list
-var sortSelectedLayersInList = function(sortedLayers){
+//--------------------------
+// Helper functions
+//--------------------------
 
-  // make sure we have multiple layers in the same group
-  if (!isMultipleSelectionInOneGroup()) {
-    notify("Please select multiple layers in one group");
-    return;
-  }
+// Return the correct margin to use, saving and the defaults for next time
+// shouldAskUser: (Boolean) Whether to prompt the user to enter a margin
+function getMargin(shouldAskUser) {
+  // Fetch the previously used value for the margin (will default to 0)
+  var marginKey = "Butter-default-margin"
+  var margin = NSUserDefaults.standardUserDefaults().integerForKey(marginKey)
 
-  // save layer indices
-  var parent = selection[0].parentGroup();
-  var layerIndices = [];
-  var loop = [selection objectEnumerator], layer;
-  while (layer = [loop nextObject]){
-    layerIndices.push(parent.indexOfLayer(layer));
-  }
-  [page deselectAllLayers];
+  // Return this value if we don't have to prompt the user
+  if (!shouldAskUser)
+    return margin
 
-  // remove layers from parent
-  var removeLoop = [selection objectEnumerator], layerToRemove;
-  while (layerToRemove = [removeLoop nextObject]){
-    [layerToRemove removeFromParent];
-  }
+  // Ask the user to enter the margin — if they cancel, return nothing
+  var response = doc.askForUserInput_ofType_initialValue("Spacing", 1, margin).integerValue()
+  if (!response)
+    return null
 
-  // insert them at the corresponding index
-  for (var i = 0; i < layerIndices.length; i++) {
-    var index = layerIndices[i];
-    var sortedLayer = sortedLayers[i];
-    var layerArray = [NSArray arrayWithObject:sortedLayer];
-    [parent insertLayers:layerArray atIndex:index];
-    [sortedLayer select:true byExpandingSelection:true];
-  }
+  // Save the margin for next time
+  NSUserDefaults.standardUserDefaults().setInteger_forKey(response, marginKey)
+  return response
 }
 
-// loops over selection to check if they're multiple, and part of the same group
-var isMultipleSelectionInOneGroup = function(){
-  if (selection.count() < 2) {
-    return false;
-  }
-  var parent = selection[0].parentGroup();
-  var loop = [selection objectEnumerator], layer;
-  while (layer = [loop nextObject]){
-    if (layer.parentGroup() != parent) {
-      return false;
+// Sort an array of layers for a given direction
+// layers: An array of the layers to order
+// direction: The direction to order them in reference to
+function sortLayersForDirection(layers, direction) {
+  return layers.sort(function(a, b) {
+    switch(direction) {
+      case directions.LEFT:
+        return a.frame().minX() <= b.frame().minX() ? -1 : 1
+      case directions.RIGHT:
+        return a.frame().maxX() >= b.frame().maxX() ? -1 : 1
+      case directions.UP:
+        return a.frame().minY() <= b.frame().minY() ? -1 : 1
+      case directions.DOWN:
+        return a.frame().maxY() >= b.frame().maxY() ? -1 : 1
     }
+  })
+}
+
+// Return whether all layers have the same parent or not
+// layers: An array of layers
+function layersHaveSameParent(layers) {
+  if (layers.count() < 1)
+    return false
+
+  return layers.every(function(layer) {
+    return layer.parentGroup() == layers[0].parentGroup()
+  })
+}
+
+// Return whether all layers have the same spacing between them in a specific direction
+function areLayersButted(layers, diretion) {
+  var previous = layers.shift()
+  var spacing = null
+
+  return layers.every(function(layer) {
+    var newSpacing = spaceBetweenLayers(previous, layer, direction)
+    previous = layer
+
+    if (spacing && newSpacing != spacing) {
+      return false
+    }
+
+    spacing = newSpacing
+    return true
+  })
+}
+
+// Returns the space between two layers in a specific direction
+function spaceBetweenLayers(a, b, direction) {
+  switch(direction) {
+    case directions.LEFT:
+      return b.frame().minX() - a.frame().maxX()
+    case directions.RIGHT:
+      return a.frame().minX() - b.frame().maxX()
+    case directions.UP:
+      return b.frame().minY() - a.frame().maxY()
+    case directions.DOWN:
+      return a.frame().minY() - b.frame().maxY()
   }
-  return true;
 }
