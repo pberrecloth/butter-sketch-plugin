@@ -175,3 +175,35 @@ function layersHaveSameParent(layers) {
     return layer.parentGroup() == layers[0].parentGroup()
   })
 }
+
+// Return whether all layers have the same spacing between them in a specific direction
+function areLayersButted(layers, diretion) {
+  var previous = layers.shift()
+  var spacing = null
+
+  return layers.every(function(layer) {
+    var newSpacing = spaceBetweenLayers(previous, layer, direction)
+    previous = layer
+
+    if (spacing && newSpacing != spacing) {
+      return false
+    }
+
+    spacing = newSpacing
+    return true
+  })
+}
+
+// Returns the space between two layers in a specific direction
+function spaceBetweenLayers(a, b, direction) {
+  switch(direction) {
+    case directions.LEFT:
+      return b.frame().minX() - a.frame().maxX()
+    case directions.RIGHT:
+      return a.frame().minX() - b.frame().maxX()
+    case directions.UP:
+      return b.frame().minY() - a.frame().maxY()
+    case directions.DOWN:
+      return a.frame().minY() - b.frame().maxY()
+  }
+}

@@ -15,7 +15,7 @@
       "icon" : "icons/butter-64x64.png",
       "script" : "butter.js",
       "handler" : "buttSelectionUp",
-      "shortcut" : ""
+      "shortcut" : "command alt ↑"
     },
     {
       "name" : "Butt Selection Down",
@@ -24,7 +24,7 @@
       "icon" : "icons/butter-64x64.png",
       "script" : "butter.js",
       "handler" : "buttSelectionDown",
-      "shortcut" : ""
+      "shortcut" : "command alt ↓"
     },
     {
       "name" : "Butt Selection Left",
@@ -33,7 +33,7 @@
       "icon" : "icons/butter-64x64.png",
       "script" : "butter.js",
       "handler" : "buttSelectionLeft",
-      "shortcut" : ""
+      "shortcut" : "command alt ←"
     },
     {
       "name" : "Butt Selection Right",
@@ -42,7 +42,7 @@
       "icon" : "icons/butter-64x64.png",
       "script" : "butter.js",
       "handler" : "buttSelectionRight",
-      "shortcut" : ""
+      "shortcut" : "command alt →"
     },
     {
       "name" :        "Space Selection Up",
