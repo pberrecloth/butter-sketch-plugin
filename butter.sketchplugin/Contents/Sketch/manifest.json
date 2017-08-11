@@ -1,9 +1,9 @@
 {
   "name": "Butter",
   "description" : "Butts layers together",
-  "author" : "Peter Berrecloth",
+  "author" : "Peter Berrecloth & David Williames",
   "homepage": "https://github.com/pberrecloth/butter-sketch-plugin",
-  "version": "0.1",
+  "version": "2.0",
   "identifier" : "com.butter.sketchplugin",
   "compatibleVersion": "39.1",
   "bundleVersion": 1,
@@ -45,49 +45,13 @@
       "shortcut" : "command alt →"
     },
     {
-      "name" :        "Space Selection Up",
-      "identifier" :  "buttSelectionUpAddingMargin",
-      "description" : "Space selection up",
-      "icon" : "icons/butter-64x64.png",
-      "script" :      "butter.js",
-      "handler" :     "buttSelectionUpAddingMargin",
-      "shortcut" :     ""
-    },
-    {
-      "name" :        "Space Selection Down",
-      "identifier" :  "buttSelectionDownAddingMargin",
-      "description" : "Space selection down",
-      "icon" : "icons/butter-64x64.png",
-      "script" :      "butter.js",
-      "handler" :     "buttSelectionDownAddingMargin",
-      "shortcut" :    ""
-    },
-    {
-      "name" :        "Space Selection Left",
-      "identifier" :  "buttSelectionLeftAddingMargin",
-      "description" : "Space selection left",
-      "icon" : "icons/butter-64x64.png",
-      "script" :      "butter.js",
-      "handler" :     "buttSelectionLeftAddingMargin",
-      "shortcut" :    ""
-    },
-    {
-      "name" :        "Space Selection Right",
-      "identifier" :  "buttSelectionRightAddingMargin",
-      "description" : "Space selection right",
-      "icon" : "icons/butter-64x64.png",
-      "script" :      "butter.js",
-      "handler" :     "buttSelectionRightAddingMargin",
-      "shortcut" :    ""
-    },
-    {
-      "name" :        "Settings",
-      "identifier" :  "changeSettings",
+      "name" : "Settings",
+      "identifier" : "showSettings",
       "description" : "Butter settings",
       "icon" : "icons/butter-64x64.png",
-      "script" :      "butter.js",
-      "handler" :     "changeSettings",
-      "shortcut" :    ""
+      "script" : "butter.js",
+      "handler" : "showSettings",
+      "shortcut" : "control b"
     }
   ],
   "menu" : {
@@ -101,10 +65,7 @@
           "buttSelectionLeft",
           "buttSelectionRight",
           "-",
-          "buttSelectionUpAddingMargin",
-          "buttSelectionDownAddingMargin",
-          "buttSelectionLeftAddingMargin",
-          "buttSelectionRightAddingMargin"
+          "showSettings"
         ]
       }
     ]

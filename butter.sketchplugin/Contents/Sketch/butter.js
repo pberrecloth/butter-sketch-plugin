@@ -1,3 +1,4 @@
+@import 'ui.js'
 
 var doc, selection, count
 
@@ -6,6 +7,8 @@ function onSetUp(context) {
   doc = context.document
   selection = context.selection
   count = selection.count()
+
+  fetchDefaults()
 }
 
 // Possible directions for 'butting'
@@ -37,21 +40,8 @@ function buttSelectionRight() {
   buttSelection(directions.RIGHT)
 }
 
-// Butt - With Margin
-function buttSelectionUpAddingMargin() {
-  buttSelection(directions.UP, true)
-}
-
-function buttSelectionDownAddingMargin() {
-  buttSelection(directions.DOWN, true)
-}
-
-function buttSelectionLeftAddingMargin() {
-  buttSelection(directions.LEFT, true)
-}
-
-function buttSelectionRightAddingMargin() {
-  buttSelection(directions.RIGHT, true)
+function showSettings() {
+  showSettingsScreen()
 }
 
 
@@ -61,8 +51,7 @@ function buttSelectionRightAddingMargin() {
 
 // Butt all selected elements in a specified direction
 // direction: The direction to butt from
-// askUser: (Boolean) Whether to prompt the user to enter a margin
-function buttSelection(direction, askUser) {
+function buttSelection(direction) {
   // Will only work if the user has selected more than one layer
   if (count <= 1) {
     doc.showMessage("Select at least two layers to butt together")
@@ -76,9 +65,9 @@ function buttSelection(direction, askUser) {
   }
 
   // Get the margin for butting — asking the user if necessary
-  var margin = getMargin(askUser)
+  var margin = getMargin()
   // If the user cancelled their margin input, finish running the script
-  if (!margin)
+  if (margin === null)
     return
 
 
@@ -111,14 +100,22 @@ function buttSelection(direction, askUser) {
         break;
     }
 
-    // Reorder the layer in the layer list by removing it, then placing after the previous layer
-    layer.removeFromParent()
-    previous.parentGroup().insertLayer_afterLayerOrAtEnd(layer, previous)
+    // Reorder the layer list — if that's the preference
+    if (defaults.reorderLayerList > 0) {
+      // Reorder the layer in the layer list by removing it, then placing after the previous layer
+      layer.removeFromParent()
+      previous.parentGroup().insertLayer_afterLayerOrAtEnd(layer, previous)
+    }
 
     previous = layer
   })
 
-  doc.showMessage("Processed " + count + " layers")
+  // Display a message for what just occured
+  var message = "Butted " + count + " layers"
+  if (margin != 0)
+    message += " with " + margin + " spacing"
+
+  doc.showMessage(message)
 }
 
 
@@ -129,21 +126,18 @@ function buttSelection(direction, askUser) {
 // Return the correct margin to use, saving and the defaults for next time
 // shouldAskUser: (Boolean) Whether to prompt the user to enter a margin
 function getMargin(shouldAskUser) {
-  // Fetch the previously used value for the margin (will default to 0)
-  var marginKey = "Butter-default-margin"
-  var margin = NSUserDefaults.standardUserDefaults().integerForKey(marginKey)
 
   // Return this value if we don't have to prompt the user
-  if (!shouldAskUser)
-    return margin
+  if (defaults.askPrompt == 0)
+    return defaults.defaultValue
 
   // Ask the user to enter the margin — if they cancel, return nothing
-  var response = doc.askForUserInput_ofType_initialValue("Spacing", 1, margin).integerValue()
-  if (!response)
+  var response = doc.askForUserInput_ofType_initialValue("Spacing", 1, defaults.lastValue).floatValue()
+  if (response === null)
     return null
 
   // Save the margin for next time
-  NSUserDefaults.standardUserDefaults().setInteger_forKey(response, marginKey)
+  updateLastValueDefault(response)
   return response
 }
 
@@ -175,6 +169,9 @@ function layersHaveSameParent(layers) {
     return layer.parentGroup() == layers[0].parentGroup()
   })
 }
+
+
+// CURRENTLY UNUSED HELPER FUNCTIONS
 
 // Return whether all layers have the same spacing between them in a specific direction
 function areLayersButted(layers, diretion) {
