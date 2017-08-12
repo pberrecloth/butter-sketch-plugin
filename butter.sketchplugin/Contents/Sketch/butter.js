@@ -126,7 +126,7 @@ var sortSelectedLayersInList = function(sortedLayers){
     notify("Please select multiple layers in one group");
     return;
   }
-
+/*
   // save layer indices
   var parent = selection[0].parentGroup();
   var layerIndices = [];
@@ -150,6 +150,8 @@ var sortSelectedLayersInList = function(sortedLayers){
     [parent insertLayers:layerArray atIndex:index];
     [sortedLayer select:true byExpandingSelection:true];
   }
+  */
+  
 }
 
 // loops over selection to check if they're multiple, and part of the same group
