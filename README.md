@@ -1,8 +1,16 @@
 # Butter Sketch Plugin
 
+
 <a href="http://bit.ly/SketchRunnerWebsite">
   <img src="http://bit.ly/RunnerBadgeBlue">
 </a>
+
+
+---
+
+> **Version 2.0 coming very soon!**
+
+---
 
 
 ## Butter will butt your layers together.
