@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Butter</title>
+    <link>https://raw.githubusercontent.com/pberrecloth/butter-sketch-plugin/master/.sparkle.xml</link>
+    <description>Butts layers together</description>
+    <language>en</language>
+      <item>
+        <title>Version 1.1</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>Rewritten from the ground up</li>
+              <li>Fixed support for latest versions of Sketch</li>
+              <li>Added support for Sketch Runner</li>
+              <li>Most recently used spacing value is the default next time</li>
+              <li>Reorders selected layers in the layer list in the same order they are butted together</li>
+            </ul>
+          ]]>
+        </description>
+        <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/1.1/Butter.sketchplugin.zip" sparkle:version="1.1" />
+      </item>
+  </channel>
+</rss>
