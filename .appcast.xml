@@ -18,7 +18,7 @@
             </ul>
           ]]>
         </description>
-        <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/1.1/Butter.sketchplugin.zip" sparkle:version="1.1" />
+        <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.1/Butter.sketchplugin.zip" sparkle:version="1.1" />
       </item>
   </channel>
 </rss>
