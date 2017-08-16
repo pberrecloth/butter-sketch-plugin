@@ -1,4 +1,4 @@
-@import 'ui.js'
+@import 'defaults.js'
 
 var doc, selection, count
 
@@ -40,8 +40,22 @@ function buttSelectionRight() {
   buttSelection(directions.RIGHT)
 }
 
-function showSettings() {
-  showSettingsScreen()
+// Spacing
+
+function buttSelectionUpAddingMargin() {
+  buttSelection(directions.UP, true)
+}
+
+function buttSelectionDownAddingMargin() {
+  buttSelection(directions.DOWN, true)
+}
+
+function buttSelectionLeftAddingMargin() {
+  buttSelection(directions.LEFT, true)
+}
+
+function buttSelectionRightAddingMargin() {
+  buttSelection(directions.RIGHT, true)
 }
 
 
@@ -51,7 +65,7 @@ function showSettings() {
 
 // Butt all selected elements in a specified direction
 // direction: The direction to butt from
-function buttSelection(direction) {
+function buttSelection(direction, askUser) {
   // Will only work if the user has selected more than one layer
   if (count <= 1) {
     doc.showMessage("Select at least two layers to butt together")
@@ -65,7 +79,7 @@ function buttSelection(direction) {
   }
 
   // Get the margin for butting — asking the user if necessary
-  var margin = getMargin()
+  var margin = getMargin(askUser)
   // If the user cancelled their margin input, finish running the script
   if (margin === null)
     return
@@ -113,7 +127,7 @@ function buttSelection(direction) {
   // Display a message for what just occured
   var message = "Butted " + count + " layers"
   if (margin != 0)
-    message += " with " + margin + " spacing"
+    message += " with a spacing of " + margin
 
   doc.showMessage(message)
 }
@@ -128,11 +142,11 @@ function buttSelection(direction) {
 function getMargin(shouldAskUser) {
 
   // Return this value if we don't have to prompt the user
-  if (defaults.askPrompt == 0)
-    return defaults.defaultValue
+  if (!shouldAskUser)
+    return 0
 
   // Ask the user to enter the margin — if they cancel, return nothing
-  var response = doc.askForUserInput_ofType_initialValue("Spacing", 1, defaults.lastValue).floatValue()
+  var response = doc.askForUserInput_ofType_initialValue("Spacing", 1, defaults.lastValue).integerValue()
   if (response === null)
     return null
 
