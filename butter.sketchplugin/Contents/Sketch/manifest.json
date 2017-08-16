@@ -5,7 +5,7 @@
   "homepage": "https://github.com/pberrecloth/butter-sketch-plugin",
   "version": "1.1",
   "identifier": "com.butter.sketchplugin",
-  "appcast": "https://raw.githubusercontent.com/pberrecloth/butter-sketch-plugin/master/.sparkle.xml",
+  "appcast": "https://raw.githubusercontent.com/pberrecloth/butter-sketch-plugin/master/.appcast.xml",
   "compatibleVersion": "39.1",
   "bundleVersion": 1,
   "commands": [
