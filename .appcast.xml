@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Butter</title>
-    <link>https://raw.githubusercontent.com/pberrecloth/butter-sketch-plugin/master/.sparkle.xml</link>
+    <link>https://raw.githubusercontent.com/pberrecloth/butter-sketch-plugin/master/.appcast.xml</link>
     <description>Butts layers together</description>
     <language>en</language>
       <item>
