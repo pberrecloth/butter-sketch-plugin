@@ -6,6 +6,17 @@
     <description>Butts layers together</description>
     <language>en</language>
       <item>
+        <title>Version 1.2</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>Remove keyboard shortcuts</li>
+            </ul>
+          ]]>
+        </description>
+        <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.2/Butter.sketchplugin.zip" sparkle:version="1.2" />
+      </item>
+      <item>
         <title>Version 1.1</title>
         <description>
           <![CDATA[
