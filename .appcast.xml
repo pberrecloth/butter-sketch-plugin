@@ -5,31 +5,48 @@
     <link>https://raw.githubusercontent.com/pberrecloth/butter-sketch-plugin/master/.appcast.xml</link>
     <description>Butts layers together</description>
     <language>en</language>
-      <item>
-        <title>Version 1.2</title>
-        <description>
-          <![CDATA[
-            <ul>
-              <li>Remove keyboard shortcuts</li>
-            </ul>
-          ]]>
-        </description>
-        <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.2/Butter.sketchplugin.zip" sparkle:version="1.2" />
-      </item>
-      <item>
-        <title>Version 1.1</title>
-        <description>
-          <![CDATA[
-            <ul>
-              <li>Rewritten from the ground up</li>
-              <li>Fixed support for latest versions of Sketch</li>
-              <li>Added support for Sketch Runner</li>
-              <li>Most recently used spacing value is the default next time</li>
-              <li>Reorders selected layers in the layer list in the same order they are butted together</li>
-            </ul>
-          ]]>
-        </description>
-        <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.1/Butter.sketchplugin.zip" sparkle:version="1.1" />
-      </item>
+    <item>
+      <title>Version 1.3</title>
+      <description>
+        <![CDATA[
+          <ul>
+            <li>Fixed: layers with transformation (e.g. rotation) now work as expected</li>
+          </ul>
+          Added some new behaviour for when less than 2 layers are selected:
+          <ul>
+            <li>If 1 layer is selected — it will select all its sublayers (even ones that are locked). Great for selecting a single artboard or group to butt everything within it.</li>
+            <li>If no layers are selected and there are no artboards on the current page — it will select all top level layers (even locked ones)</li>
+            <li>If no layers are selected and there is a current artboard — it will select all the top-level layers within the artboard.</li>
+          </ul>
+        ]]>
+      </description>
+      <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.3/Butter.sketchplugin.zip" sparkle:version="1.3" />
+    </item>
+    <item>
+      <title>Version 1.2</title>
+      <description>
+        <![CDATA[
+          <ul>
+            <li>Remove keyboard shortcuts</li>
+          </ul>
+        ]]>
+      </description>
+      <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.2/Butter.sketchplugin.zip" sparkle:version="1.2" />
+    </item>
+    <item>
+      <title>Version 1.1</title>
+      <description>
+        <![CDATA[
+          <ul>
+            <li>Rewritten from the ground up</li>
+            <li>Fixed support for latest versions of Sketch</li>
+            <li>Added support for Sketch Runner</li>
+            <li>Most recently used spacing value is the default next time</li>
+            <li>Reorders selected layers in the layer list in the same order they are butted together</li>
+          </ul>
+        ]]>
+      </description>
+      <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.1/Butter.sketchplugin.zip" sparkle:version="1.1" />
+    </item>
   </channel>
 </rss>
