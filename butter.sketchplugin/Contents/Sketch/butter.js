@@ -66,14 +66,28 @@ function buttSelectionRightAddingMargin() {
 // Butt all selected elements in a specified direction
 // direction: The direction to butt from
 function buttSelection(direction, askUser) {
+
+  var layersToButt = selection
+
+  // If nothing is selected — use the current artboard, otherwise use the page's layers
+  if (layersToButt.count() == 0) {
+    var page = doc.currentPage()
+    var artboard = page.currentArtboard()
+    layersToButt = artboard ? artboard.layers() : page.layers()
+  }
+  else if (layersToButt.count() == 1) {
+    // If exactly one thing is selected, use it's layers
+    layersToButt = layersToButt.firstObject().layers()
+  }
+
   // Will only work if the user has selected more than one layer
-  if (count <= 1) {
-    doc.showMessage("Select at least two layers to butt together")
+  if (layersToButt.count() <= 1) {
+    doc.showMessage("Select at least two layers to butt together. Or one layer with multiple sublayers.")
     return
   }
 
   // Will only work if all the layers have the same parent
-  if (!layersHaveSameParent(selection)) {
+  if (!layersHaveSameParent(layersToButt)) {
     doc.showMessage("Please select multiple layers in one group")
     return
   }
@@ -81,38 +95,51 @@ function buttSelection(direction, askUser) {
   // Get the margin for butting — asking the user if necessary
   var margin = getMargin(askUser)
   // If the user cancelled their margin input, finish running the script
-  if (margin === null)
+  if (margin === null) {
     return
+  }
 
+  // Deselect all layers — in case we are not butting the current selection
+  selection.forEach(function(layer) {
+    layer.select_byExtendingSelection(false, false)
+  })
 
   // Convert the selection array from an NSArray into a Javascript array
   // This makes it easier to sort and use 'shift' etc.
-  var selectedLayers = []
-  selection.forEach(function(layer) {
-    selectedLayers.push(layer)
+  var layersArray = []
+  layersToButt.forEach(function(layer) {
+    layersArray.push(layer)
+    // Select all the layers we are butting — in case we are not butting the original selection
+    layer.select_byExtendingSelection(true, true)
   })
 
   // Sort the layers based on the direction
-  var layers = sortLayersForDirection(selectedLayers, direction)
+  var layers = sortLayersForDirection(layersArray, direction)
 
   // Apart from the first layer, shift each layer based on previous layer's position
   var previous = layers.shift()
   layers.forEach(function(layer) {
+    // The amount to offset the layer
+    var x = 0
+    var y = 0
+
     // Shift the position based on the direction we are 'butting'
     switch(direction) {
       case directions.LEFT:
-        layer.frame().setX(previous.frame().maxX() + margin)
+        x = margin - rectForLayer(layer).minX() + rectForLayer(previous).maxX()
         break;
       case directions.RIGHT:
-        layer.frame().setX(previous.frame().minX() - margin - layer.frame().width())
+        x = rectForLayer(previous).minX() - rectForLayer(layer).maxX() - margin
         break;
       case directions.UP:
-        layer.frame().setY(previous.frame().maxY() + margin)
+        y = margin - rectForLayer(layer).minY() + rectForLayer(previous).maxY()
         break;
       case directions.DOWN:
-        layer.frame().setY(previous.frame().minY() - margin - layer.frame().height())
+        y = rectForLayer(previous).minY() - rectForLayer(layer).maxY() - margin
         break;
     }
+
+    offsetLayer(layer, x, y)
 
     // Reorder the layer list — if that's the preference
     if (defaults.reorderLayerList > 0) {
@@ -125,7 +152,7 @@ function buttSelection(direction, askUser) {
   })
 
   // Display a message for what just occured
-  var message = "Butted " + count + " layers"
+  var message = "Butted " + layersToButt.count() + " layers"
   if (margin != 0)
     message += " with a spacing of " + margin
 
@@ -160,15 +187,18 @@ function getMargin(shouldAskUser) {
 // direction: The direction to order them in reference to
 function sortLayersForDirection(layers, direction) {
   return layers.sort(function(a, b) {
+    var aFrame = rectForLayer(a)
+    var bFrame = rectForLayer(b)
+
     switch(direction) {
       case directions.LEFT:
-        return a.frame().minX() <= b.frame().minX() ? -1 : 1
+        return aFrame.minX() <= bFrame.minX() ? -1 : 1
       case directions.RIGHT:
-        return a.frame().maxX() >= b.frame().maxX() ? -1 : 1
+        return aFrame.maxX() >= bFrame.maxX() ? -1 : 1
       case directions.UP:
-        return a.frame().minY() <= b.frame().minY() ? -1 : 1
+        return aFrame.minY() <= bFrame.minY() ? -1 : 1
       case directions.DOWN:
-        return a.frame().maxY() >= b.frame().maxY() ? -1 : 1
+        return aFrame.maxY() >= bFrame.maxY() ? -1 : 1
     }
   })
 }
@@ -182,6 +212,17 @@ function layersHaveSameParent(layers) {
   return layers.every(function(layer) {
     return layer.parentGroup() == layers[0].parentGroup()
   })
+}
+
+// Returns an MSRect for the layer, taking into account transforms (e.g. rotation)
+function rectForLayer(layer) {
+  return MSRect.alloc().initWithRect(layer.frameForTransforms())
+}
+
+// Offset a layer's position by x and y
+function offsetLayer(layer, x, y) {
+  layer.frame().setX(layer.frame().x() + x)
+  layer.frame().setY(layer.frame().y() + y)
 }
 
 
@@ -207,14 +248,17 @@ function areLayersButted(layers, diretion) {
 
 // Returns the space between two layers in a specific direction
 function spaceBetweenLayers(a, b, direction) {
+  var aFrame = rectForLayer(a)
+  var bFrame = rectForLayer(b)
+
   switch(direction) {
     case directions.LEFT:
-      return b.frame().minX() - a.frame().maxX()
+      return bFrame.minX() - aFrame.maxX()
     case directions.RIGHT:
-      return a.frame().minX() - b.frame().maxX()
+      return aFrame.minX() - bFrame.maxX()
     case directions.UP:
-      return b.frame().minY() - a.frame().maxY()
+      return bFrame.minY() - aFrame.maxY()
     case directions.DOWN:
-      return a.frame().minY() - b.frame().maxY()
+      return aFrame.minY() - bFrame.maxY()
   }
 }
