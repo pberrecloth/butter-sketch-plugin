@@ -86,11 +86,6 @@ function buttSelection(direction, askUser) {
     return
   }
 
-  // Will only work if all the layers have the same parent
-  if (!layersHaveSameParent(layersToButt)) {
-    doc.showMessage("Please select multiple layers in one group")
-    return
-  }
 
   // Get the margin for butting — asking the user if necessary
   var margin = getMargin(askUser)
@@ -126,16 +121,16 @@ function buttSelection(direction, askUser) {
     // Shift the position based on the direction we are 'butting'
     switch(direction) {
       case directions.LEFT:
-        x = margin - rectForLayer(layer).minX() + rectForLayer(previous).maxX()
+        x = margin - pageRectForLayer(layer).minX() + pageRectForLayer(previous).maxX()
         break;
       case directions.RIGHT:
-        x = rectForLayer(previous).minX() - rectForLayer(layer).maxX() - margin
+        x = pageRectForLayer(previous).minX() - pageRectForLayer(layer).maxX() - margin
         break;
       case directions.UP:
-        y = margin - rectForLayer(layer).minY() + rectForLayer(previous).maxY()
+        y = margin - pageRectForLayer(layer).minY() + pageRectForLayer(previous).maxY()
         break;
       case directions.DOWN:
-        y = rectForLayer(previous).minY() - rectForLayer(layer).maxY() - margin
+        y = pageRectForLayer(previous).minY() - pageRectForLayer(layer).maxY() - margin
         break;
     }
 
@@ -187,8 +182,8 @@ function getMargin(shouldAskUser) {
 // direction: The direction to order them in reference to
 function sortLayersForDirection(layers, direction) {
   return layers.sort(function(a, b) {
-    var aFrame = rectForLayer(a)
-    var bFrame = rectForLayer(b)
+    var aFrame = pageRectForLayer(a)
+    var bFrame = pageRectForLayer(b)
 
     switch(direction) {
       case directions.LEFT:
@@ -203,26 +198,42 @@ function sortLayersForDirection(layers, direction) {
   })
 }
 
-// Return whether all layers have the same parent or not
-// layers: An array of layers
-function layersHaveSameParent(layers) {
-  if (layers.count() < 1)
-    return false
-
-  return layers.every(function(layer) {
-    return layer.parentGroup() == layers[0].parentGroup()
-  })
-}
-
-// Returns an MSRect for the layer, taking into account transforms (e.g. rotation)
-function rectForLayer(layer) {
-  return MSRect.alloc().initWithRect(layer.frameForTransforms())
-}
-
 // Offset a layer's position by x and y
 function offsetLayer(layer, x, y) {
   layer.frame().setX(layer.frame().x() + x)
   layer.frame().setY(layer.frame().y() + y)
+
+  // Since the layer has moved, it's parent's frame may need to be updated
+  var parent = layer.parentGroup()
+  if (parent) {
+    parent.resizeToFitChildrenWithOption(0)
+  }
+}
+
+// Returns an MSRect for the layer, taking into account transforms (e.g. rotation)
+// Within the page coordinate space
+function pageRectForLayer(layer) {
+  var frame = layer.frameForTransforms()
+  var coords = pageCoordinatesForLayer(layer)
+  return MSRect.rectWithX_y_width_height(coords.x, coords.y, frame.size.width, frame.size.height)
+}
+
+// Convert the coordinates of a layer's frame to one central coordinate space – within the page
+function pageCoordinatesForLayer(layer) {
+  // We only need to figure out x and y coordinates
+  var x = 0, y = 0
+
+  // Loop through each parent until there are no more parents
+  // Offset the coordinate, by the parents coordinates
+  while(layer) {
+    var frame = layer.frameForTransforms()
+    x += frame.origin.x
+    y += frame.origin.y
+
+    layer = layer.parentGroup()
+  }
+
+  return { x: x, y: y}
 }
 
 
@@ -248,8 +259,8 @@ function areLayersButted(layers, diretion) {
 
 // Returns the space between two layers in a specific direction
 function spaceBetweenLayers(a, b, direction) {
-  var aFrame = rectForLayer(a)
-  var bFrame = rectForLayer(b)
+  var aFrame = pageRectForLayer(a)
+  var bFrame = pageRectForLayer(b)
 
   switch(direction) {
     case directions.LEFT:
