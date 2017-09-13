@@ -9,7 +9,7 @@
       <title>Version 1.4</title>
       <description>
         <![CDATA[
-          Layers can no be butted with any other layers within the same page, regardless of if they're in the same group or artboard.
+          Layers can now be butted with any other layers within the same page, regardless of if they're in the same group or artboard.
         ]]>
       </description>
       <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.4/Butter.sketchplugin.zip" sparkle:version="1.4" />
