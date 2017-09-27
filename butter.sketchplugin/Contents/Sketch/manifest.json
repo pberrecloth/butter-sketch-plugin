@@ -3,7 +3,7 @@
   "description": "Butts layers together",
   "author": "Peter Berrecloth & David Williames",
   "homepage": "https://github.com/pberrecloth/butter-sketch-plugin",
-  "version": "1.4",
+  "version": "2.0",
   "identifier": "com.butter.sketchplugin",
   "appcast": "https://raw.githubusercontent.com/pberrecloth/butter-sketch-plugin/master/.appcast.xml",
   "compatibleVersion": "39.1",
@@ -14,7 +14,7 @@
       "identifier": "buttSelectionUp",
       "description": "Butt selection up",
       "icon": "icons\/buttUp.png",
-      "script": "butter.js",
+      "script": "main.js",
       "handler": "buttSelectionUp",
       "shortcut": ""
     },
@@ -23,7 +23,7 @@
       "identifier": "buttSelectionDown",
       "description": "Butt selection down",
       "icon": "icons\/buttDown.png",
-      "script": "butter.js",
+      "script": "main.js",
       "handler": "buttSelectionDown",
       "shortcut": ""
     },
@@ -32,7 +32,7 @@
       "identifier": "buttSelectionLeft",
       "description": "Butt selection left",
       "icon": "icons\/buttLeft.png",
-      "script": "butter.js",
+      "script": "main.js",
       "handler": "buttSelectionLeft",
       "shortcut": ""
     },
@@ -41,62 +41,41 @@
       "identifier": "buttSelectionRight",
       "description": "Butt selection right",
       "icon": "icons\/buttRight.png",
-      "script": "butter.js",
+      "script": "main.js",
       "handler": "buttSelectionRight",
       "shortcut": ""
     },
     {
-      "name": "Space Selection Up",
-      "identifier": "buttSelectionUpAddingMargin",
-      "description": "Space selection up",
-      "icon": "icons\/buttUp.png",
-      "script": "butter.js",
-      "handler": "buttSelectionUpAddingMargin",
+      "name": "Settings",
+      "identifier": "showSettings",
+      "description": "Show Butter Settings",
+      "icon": "icons\/settings.png",
+      "script": "main.js",
+      "handler": "showSettings",
       "shortcut": ""
     },
     {
-      "name": "Space Selection Down",
-      "identifier": "buttSelectionDownAddingMargin",
-      "description": "Space selection down",
-      "icon": "icons\/buttDown.png",
-      "script": "butter.js",
-      "handler": "buttSelectionDownAddingMargin",
-      "shortcut": ""
-    },
-    {
-      "name": "Space Selection Left",
-      "identifier": "buttSelectionLeftAddingMargin",
-      "description": "Space selection left",
-      "icon": "icons\/buttLeft.png",
-      "script": "butter.js",
-      "handler": "buttSelectionLeftAddingMargin",
-      "shortcut": ""
-    },
-    {
-      "name": "Space Selection Right",
-      "identifier": "buttSelectionRightAddingMargin",
-      "description": "Space selection right",
-      "icon": "icons\/buttRight.png",
-      "script": "butter.js",
-      "handler": "buttSelectionRightAddingMargin",
-      "shortcut": ""
+      "script":"main.js",
+      "handlers": {
+        "actions": {
+            "OpenDocument": "openDoc",
+            "SelectionChanged.finish": "selectionChanged"
+        }
+      }
     }
   ],
   "menu": {
     "isRoot": true,
     "items": [
       {
-        "title": "Butter",
+        "title": "Butter 2",
         "items": [
           "buttSelectionUp",
           "buttSelectionDown",
           "buttSelectionLeft",
           "buttSelectionRight",
           "-",
-          "buttSelectionUpAddingMargin",
-          "buttSelectionDownAddingMargin",
-          "buttSelectionLeftAddingMargin",
-          "buttSelectionRightAddingMargin"
+          "showSettings"
         ]
       }
     ]

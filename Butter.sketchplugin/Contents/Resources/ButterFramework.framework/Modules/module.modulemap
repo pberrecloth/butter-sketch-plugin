@@ -1,0 +1,6 @@
+framework module ButterFramework {
+  umbrella header "ButterFramework.h"
+
+  export *
+  module * { export * }
+}
