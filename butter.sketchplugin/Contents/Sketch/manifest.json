@@ -15,8 +15,7 @@
       "description": "Butt selection up",
       "icon": "icons\/buttUp.png",
       "script": "main.js",
-      "handler": "buttSelectionUp",
-      "shortcut": ""
+      "handler": "buttSelectionUp"
     },
     {
       "name": "Butt Selection Down",
@@ -24,8 +23,7 @@
       "description": "Butt selection down",
       "icon": "icons\/buttDown.png",
       "script": "main.js",
-      "handler": "buttSelectionDown",
-      "shortcut": ""
+      "handler": "buttSelectionDown"
     },
     {
       "name": "Butt Selection Left",
@@ -33,8 +31,7 @@
       "description": "Butt selection left",
       "icon": "icons\/buttLeft.png",
       "script": "main.js",
-      "handler": "buttSelectionLeft",
-      "shortcut": ""
+      "handler": "buttSelectionLeft"
     },
     {
       "name": "Butt Selection Right",
@@ -42,8 +39,32 @@
       "description": "Butt selection right",
       "icon": "icons\/buttRight.png",
       "script": "main.js",
-      "handler": "buttSelectionRight",
-      "shortcut": ""
+      "handler": "buttSelectionRight"
+    },
+    {
+      "name": "Increment Selection spacing",
+      "identifier": "increment",
+      "description": "Increment selected layers by the defined interval spacing",
+      "icon": "icons\/buttRight.png",
+      "script": "main.js",
+      "handler": "incrementSpacing"
+    },
+    {
+      "name": "Decrement Selection spacing",
+      "identifier": "decrement",
+      "description": "Decrement selected layers by the defined interval spacing",
+      "icon": "icons\/buttRight.png",
+      "script": "main.js",
+      "handler": "decrementSpacing"
+    },
+    {
+      "name": "Snap Selection to interval",
+      "identifier": "snap",
+      "description": "Snap selected layers to the most likely interval",
+      "icon": "icons\/buttRight.png",
+      "script": "main.js",
+      "handler": "snap",
+      "shortcut": "control b"
     },
     {
       "name": "Settings",
@@ -51,8 +72,7 @@
       "description": "Show Butter Settings",
       "icon": "icons\/settings.png",
       "script": "main.js",
-      "handler": "showSettings",
-      "shortcut": ""
+      "handler": "showSettings"
     },
     {
       "script":"main.js",
@@ -75,6 +95,10 @@
           "buttSelectionLeft",
           "buttSelectionRight",
           "-",
+          "increment",
+          "decrement",
+          "-",
+          "snap",
           "showSettings"
         ]
       }

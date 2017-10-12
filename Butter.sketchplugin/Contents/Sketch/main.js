@@ -4,8 +4,17 @@ var plugin
 function onSetUp(context) {
   plugin = context.plugin
 
+  var lastUsedVersion = NSUserDefaults.standardUserDefaults().stringForKey("ButterLastUsedVersion")
+  if (lastUsedVersion != plugin.version()) {
+    // Must restart Sketch
+    var alert = NSAlert.alloc().init()
+    alert.setMessageText("Butter Plugin")
+    alert.setInformativeText("Please restart Sketch to begin using the Butter plugin correctly")
+    alert.addButtonWithTitle("Ok")
+    alert.runModal()
+  }
+
   loadFramework("ButterFramework", "BRManager")
-  BRManager.shared().selectionChanged_inDocument(context.selection, context.document)
 }
 
 function loadFramework(name, className) {
@@ -23,7 +32,7 @@ function loadFramework(name, className) {
 function openDoc(context) {
   coscript.setShouldKeepAround(true)
   coscript.scheduleWithInterval_jsFunction(0, function(interval){
-    BRManager.shared().start(context.actionContext.document)
+    BRManager.shared().start_withPlugin(context.actionContext.document, plugin)
   })
 }
 
@@ -35,20 +44,32 @@ function selectionChanged(context) {
 // Menu item actions
 //--------------------------
 
-function buttSelectionUp(context) {
+function buttSelectionUp() {
   BRManager.shared().buttUp(0);
 }
 
-function buttSelectionDown(context) {
+function buttSelectionDown() {
   BRManager.shared().buttDown(0);
 }
 
-function buttSelectionLeft(context) {
+function buttSelectionLeft() {
   BRManager.shared().buttLeft(0);
 }
 
-function buttSelectionRight(context) {
+function buttSelectionRight() {
   BRManager.shared().buttRight(0);
+}
+
+function incrementSpacing() {
+  BRManager.shared().incrementSpacing();
+}
+
+function decrementSpacing() {
+  BRManager.shared().decrementSpacing();
+}
+
+function snap() {
+  BRManager.shared().snap();
 }
 
 function showSettings() {
