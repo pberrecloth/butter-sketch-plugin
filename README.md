@@ -1,10 +1,7 @@
+![Preview](images/preview.gif?raw=true "Example")
+
+
 # Butter Sketch Plugin
-
-
-<a href="http://bit.ly/SketchRunnerWebsite">
-  <img src="http://bit.ly/RunnerBadgeBlue">
-</a>
-
 
 ---
 
@@ -13,9 +10,11 @@
 ---
 
 
-## Butter will butt your layers together.
+## Butt-align or space your layers instantly.
 
-The plugin fills the gap between the "Align" tool and the "Distribute" tool. Instead of aligning to a single axis or distributing the objects evenly, I wanted to butt objects together, removing any whitespace or overlaps between them.
+- **Butt layers together** - Remove white space and overlaps instantly with one shortcut.
+- **Spacing options** – allow you to distribute layers evenly in rows or columns – quicker than the grid tool, more precise than the distribute tool.
+- Works in any direction!
 
 
 ![Example](images/example2.gif?raw=true "Example")
@@ -26,10 +25,12 @@ The plugin fills the gap between the "Align" tool and the "Distribute" tool. Ins
 
 **NEW** *Space selection command*
 
-Distribute selected layers in a direction by specifying the amount of spacing between each layer.
-
 
 ## Install with Sketch Runner
+
+<a href="http://bit.ly/SketchRunnerWebsite">
+	<img src="http://bit.ly/RunnerBadgeBlue" width="200">
+</a>
 
 With Sketch Runner, just go to the `install` command and search for `butter`. Runner allows you to manage plugins and do much more to speed up your workflow in Sketch. [Download Runner here](http://www.sketchrunner.com).
 
