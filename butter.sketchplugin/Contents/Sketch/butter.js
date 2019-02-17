@@ -206,7 +206,9 @@ function offsetLayer(layer, x, y) {
   // Since the layer has moved, it's parent's frame may need to be updated
   var parent = layer.parentGroup()
   if (parent) {
-    parent.resizeToFitChildrenWithOption(0)
+    parent.fixGeometryWithOptions ?
+      parent.fixGeometryWithOptions(0) :
+      parent.resizeToFitChildrenWithOption(0)
   }
 }
 
