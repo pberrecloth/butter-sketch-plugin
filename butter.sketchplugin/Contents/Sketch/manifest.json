@@ -3,7 +3,7 @@
   "description": "Butts layers together",
   "author": "Peter Berrecloth & David Williames",
   "homepage": "https://github.com/pberrecloth/butter-sketch-plugin",
-  "version": "1.4",
+  "version": "1.5",
   "identifier": "com.butter.sketchplugin",
   "appcast": "https://raw.githubusercontent.com/pberrecloth/butter-sketch-plugin/master/.appcast.xml",
   "compatibleVersion": "39.1",
