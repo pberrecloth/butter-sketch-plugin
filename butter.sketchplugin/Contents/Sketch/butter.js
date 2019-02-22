@@ -165,7 +165,9 @@ function buttSelection(direction, askUser) {
 function getMargin(shouldAskUser) {
   // Return this value if we don't have to prompt the user
   if (!shouldAskUser) return 0;
+
   var response;
+
   // Ask the user to enter the margin — if they cancel, return nothing
   UI.getInputFromUser(
     'Spacing',
@@ -173,18 +175,19 @@ function getMargin(shouldAskUser) {
       initialValue: defaults.lastValue
     },
     (err, val) => {
-      if (err || val === undefined) {
-        return null;
+      if (err) {
+        response = null;
+      } else {
+        val = parseInt(val);
+
+        // Save the margin for next time
+        updateLastValueDefault(val);
+
+        response = val;
       }
-      val = parseInt(val);
-      // Save the margin for next time
-      updateLastValueDefault(val);
+    }));
 
-      response = val;
-
-    }
-  );
-  return response;
+    return response;
 }
 
 // Sort an array of layers for a given direction
