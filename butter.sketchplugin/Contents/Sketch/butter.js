@@ -1,6 +1,7 @@
 @import 'defaults.js'
 
-var doc, selection, count
+var UI = require('sketch/ui');
+var doc, selection, count;
 
 // Automatically called first when the plugin is actioned
 function onSetUp(context) {
@@ -88,7 +89,7 @@ function buttSelection(direction, askUser) {
 
 
   // Get the margin for butting — asking the user if necessary
-  var margin = getMargin(askUser)
+  var margin = getMargin(direction, askUser)
   // If the user cancelled their margin input, finish running the script
   if (margin === null) {
     return
@@ -161,20 +162,48 @@ function buttSelection(direction, askUser) {
 
 // Return the correct margin to use, saving and the defaults for next time
 // shouldAskUser: (Boolean) Whether to prompt the user to enter a margin
-function getMargin(shouldAskUser) {
-
+function getMargin(direction, shouldAskUser) {
   // Return this value if we don't have to prompt the user
-  if (!shouldAskUser)
-    return 0
+  if (!shouldAskUser) return 0;
+
+  var response,directionText;
+
+  // set text based on direction integer
+  switch(direction) {
+    case directions.LEFT:
+      directionText = 'left';
+      break;
+    case directions.RIGHT:
+      directionText = 'right';
+      break;
+    case directions.UP:
+      directionText = 'up';
+      break;
+    case directions.DOWN:
+      directionText = 'down';
+      break;
+  }
 
   // Ask the user to enter the margin — if they cancel, return nothing
-  var response = doc.askForUserInput_ofType_initialValue("Spacing", 1, defaults.lastValue).integerValue()
-  if (response === null)
-    return null
+  UI.getInputFromUser(
+    `Spacing ${directionText}:`,
+    {
+      initialValue: defaults.lastValue
+    },
+    (err, val) => {
+      if (err) {
+        response = null;
+      } else {
+        val = parseInt(val);
 
-  // Save the margin for next time
-  updateLastValueDefault(response)
-  return response
+        // Save the margin for next time
+        updateLastValueDefault(val);
+
+        response = val;
+      }
+    }));
+
+    return response;
 }
 
 // Sort an array of layers for a given direction
