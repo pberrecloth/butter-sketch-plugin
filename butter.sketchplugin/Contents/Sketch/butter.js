@@ -89,7 +89,7 @@ function buttSelection(direction, askUser) {
 
 
   // Get the margin for butting — asking the user if necessary
-  var margin = getMargin(askUser)
+  var margin = getMargin(direction, askUser)
   // If the user cancelled their margin input, finish running the script
   if (margin === null) {
     return
@@ -162,15 +162,31 @@ function buttSelection(direction, askUser) {
 
 // Return the correct margin to use, saving and the defaults for next time
 // shouldAskUser: (Boolean) Whether to prompt the user to enter a margin
-function getMargin(shouldAskUser) {
+function getMargin(direction, shouldAskUser) {
   // Return this value if we don't have to prompt the user
   if (!shouldAskUser) return 0;
 
-  var response;
+  var response,directionText;
+
+  // set text based on direction integer
+  switch(direction) {
+    case directions.LEFT:
+      directionText = 'left';
+      break;
+    case directions.RIGHT:
+      directionText = 'right';
+      break;
+    case directions.UP:
+      directionText = 'up';
+      break;
+    case directions.DOWN:
+      directionText = 'down';
+      break;
+  }
 
   // Ask the user to enter the margin — if they cancel, return nothing
   UI.getInputFromUser(
-    'Spacing',
+    `Spacing ${directionText}:`,
     {
       initialValue: defaults.lastValue
     },
