@@ -6,6 +6,23 @@
     <description>Butts layers together</description>
     <language>en</language>
     <item>
+      <title>Version 1.6</title>
+      <description>
+        <![CDATA[
+          Fixed:
+          <ul>
+            <li>Auto focus for the input dialog is back.</li>
+            <li>Cancel button is working as expected now.</li>
+          </ul>
+          Enhancement:
+          <ul>
+            <li>The dialog now shows in which direction layers will be spaced.</li>
+          </ul>
+        ]]>
+      </description>
+      <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.6/Butter.sketchplugin.zip" sparkle:version="1.6" />
+    </item>
+    <item>
       <title>Version 1.5</title>
       <description>
         <![CDATA[
