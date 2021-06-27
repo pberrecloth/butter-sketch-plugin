@@ -185,25 +185,20 @@ function getMargin(direction, shouldAskUser) {
   }
 
   // Ask the user to enter the margin — if they cancel, return nothing
-  UI.getInputFromUser(
-    `Spacing ${directionText}:`,
-    {
-      initialValue: defaults.lastValue
-    },
-    (err, val) => {
-      if (err) {
-        response = null;
-      } else {
-        val = parseInt(val);
+  UI.getInputFromUser(`Spacing ${directionText}:`, {initialValue: defaults.lastValue}, (err, val) => {
+    if (err) {
+      response = null;
+    } else {
+      val = parseInt(val);
 
-        // Save the margin for next time
-        updateLastValueDefault(val);
+      // Save the margin for next time
+      updateLastValueDefault(val);
 
-        response = val;
-      }
-    }));
+      response = val;
+    }
+  })
 
-    return response;
+  return response;
 }
 
 // Sort an array of layers for a given direction
@@ -241,12 +236,13 @@ function offsetLayer(layer, x, y) {
   }
 }
 
-// Returns an MSRect for the layer, taking into account transforms (e.g. rotation)
-// Within the page coordinate space
+// As of Sketch 72, something has changed in the internal API that broke the old method of 
+// getting the page rectangle. I've written an ugly shim below that seems to work but I can't 
+// test all possible options as I don't actually have personal access to Sketch.
 function pageRectForLayer(layer) {
   var frame = layer.frameForTransforms()
   var coords = pageCoordinatesForLayer(layer)
-  return MSRect.rectWithX_y_width_height(coords.x, coords.y, frame.size.width, frame.size.height)
+  return new Rect(coords.x, coords.y, frame.size.width, frame.size.height)
 }
 
 // Convert the coordinates of a layer's frame to one central coordinate space – within the page
@@ -267,40 +263,28 @@ function pageCoordinatesForLayer(layer) {
   return { x: x, y: y}
 }
 
+// Ugly shim to get this to work again
+class Rect {
+  constructor (x, y, width, height) {
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+  }
 
-// CURRENTLY UNUSED HELPER FUNCTIONS
+  minX () {
+    return this.x
+  }
 
-// Return whether all layers have the same spacing between them in a specific direction
-function areLayersButted(layers, diretion) {
-  var previous = layers.shift()
-  var spacing = null
+  minY () {
+    return this.y
+  }
 
-  return layers.every(function(layer) {
-    var newSpacing = spaceBetweenLayers(previous, layer, direction)
-    previous = layer
+  maxX () {
+    return this.x + this.width
+  }
 
-    if (spacing && newSpacing != spacing) {
-      return false
-    }
-
-    spacing = newSpacing
-    return true
-  })
-}
-
-// Returns the space between two layers in a specific direction
-function spaceBetweenLayers(a, b, direction) {
-  var aFrame = pageRectForLayer(a)
-  var bFrame = pageRectForLayer(b)
-
-  switch(direction) {
-    case directions.LEFT:
-      return bFrame.minX() - aFrame.maxX()
-    case directions.RIGHT:
-      return aFrame.minX() - bFrame.maxX()
-    case directions.UP:
-      return bFrame.minY() - aFrame.maxY()
-    case directions.DOWN:
-      return aFrame.minY() - bFrame.maxY()
+  maxY () {
+    return this.y + this.height
   }
 }
