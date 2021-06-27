@@ -6,6 +6,15 @@
     <description>Butts layers together</description>
     <language>en</language>
     <item>
+      <title>Version 1.7</title>
+      <description>
+        <![CDATA[
+          Fixed: It should now work on Sketch version 72+
+        ]]>
+      </description>
+      <enclosure url="https://github.com/pberrecloth/butter-sketch-plugin/releases/download/v1.7/Butter.sketchplugin.zip" sparkle:version="1.7" />
+    </item>
+    <item>
       <title>Version 1.6</title>
       <description>
         <![CDATA[
